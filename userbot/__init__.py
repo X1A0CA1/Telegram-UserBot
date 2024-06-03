@@ -1,8 +1,11 @@
 from pyrogram import Client
 
 from userbot.config import config
+from userbot.helpers import *
 
-VERSION = "0.0.1"
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+VERSION = "0.0.2"
 
 
 bot = app = client = Client(
@@ -11,10 +14,15 @@ bot = app = client = Client(
     api_hash=config.bot.api_hash,
     bot_token=config.bot.bot_token,
     test_mode=config.bot.test_mode,
-    plugins=dict(root="userbot/plugins", external="plugins"),
+    plugins=dict(root=f"userbot/plugins"),
     ipv6=config.ipv6,
     app_version=f"UserBot {VERSION}",
     device_model="iPhone 18 Pro Max",
     system_version="iOS 20.5.1",
 )
 
+scheduler = AsyncIOScheduler(timezone=config.time_zone)
+
+
+# 一些变量们
+CMD_HELP = {}

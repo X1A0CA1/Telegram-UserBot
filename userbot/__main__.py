@@ -1,12 +1,5 @@
-import asyncio
-import userbot
-
-from pyrogram import Client, compose
-
-
-async def main():
-    await compose(bots)
-
+from userbot import bot, scheduler
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    scheduler.start()
+    bot.run()

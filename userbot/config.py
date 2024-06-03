@@ -64,7 +64,7 @@ class Config(BaseModel):
 
 def load_config(filename: str = 'config.yml') -> Config:
     try:
-        with open(filename, 'r') as file:
+        with open(filename, 'r', encoding='utf-8') as file:
             data = yaml.safe_load(file)
             return Config(**data)
     except FileNotFoundError:
