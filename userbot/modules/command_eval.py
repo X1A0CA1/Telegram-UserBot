@@ -11,7 +11,7 @@ from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import Message
 
 from userbot import client, format_time, error_handler, self_command_filter
-from userbot.plugins.help import add_command_help
+from userbot.modules.help import add_command_help
 
 
 @client.on_message(self_command_filter("eval"))

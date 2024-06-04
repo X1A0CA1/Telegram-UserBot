@@ -1,12 +1,21 @@
 import platform
+import asyncio
 
-from userbot import bot, scheduler
-
+from userbot import bot, scheduler, load_modules_and_plugins
+from pyrogram import idle
 
 if platform.system() != "Windows":
     import uvloop
+
     uvloop.install()
 
-if __name__ == '__main__':
+
+async def main():
     scheduler.start()
-    bot.run()
+    await bot.start()
+    await load_modules_and_plugins()
+    await idle()
+
+
+if __name__ == '__main__':
+    asyncio.run(main())

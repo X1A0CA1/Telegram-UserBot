@@ -9,7 +9,7 @@ from pyrogram.errors import FloodWait, MessageIdInvalid
 from pyrogram.raw.functions import Ping
 
 from userbot import client, format_time, self_command_filter
-from userbot.plugins.help import add_command_help
+from userbot.modules.help import add_command_help
 
 
 @client.on_message(self_command_filter("ping"))

@@ -7,7 +7,7 @@ from pyrogram.enums import ChatType
 from pyrogram import raw
 
 from userbot import client, error_handler, self_command_filter
-from userbot.plugins.help import add_command_help
+from userbot.modules.help import add_command_help
 
 
 @client.on_message(self_command_filter(["ss", "screenshot"]))

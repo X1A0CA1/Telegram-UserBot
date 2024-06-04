@@ -1,5 +1,5 @@
 from userbot import client, AioHttp, self_command_filter
-from userbot.plugins.help import add_command_help
+from userbot.modules.help import add_command_help
 
 
 def replace_text(text):

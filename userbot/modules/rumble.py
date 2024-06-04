@@ -5,7 +5,7 @@ from pyrogram.types import Message
 from pyrogram.errors import FloodWait, Forbidden
 
 from userbot import client, self_command_filter
-from userbot.plugins.help import add_command_help
+from userbot.modules.help import add_command_help
 
 
 @client.on_message(self_command_filter("spam"))
