@@ -12,7 +12,6 @@ class ProxyConfig(BaseModel):
     username: Optional[str] = None
     password: Optional[str] = None
 
-    # noinspection PyNestedDecorators
     @model_validator(mode='after')
     @classmethod
     def check_proxy_config(cls, values):
@@ -32,7 +31,6 @@ class BotConfig(BaseModel):
     debug: bool = False
     test_mode: bool = False
 
-    # noinspection PyNestedDecorators
     @model_validator(mode='after')
     @classmethod
     def check_bot_config(cls, values):
@@ -54,7 +52,10 @@ class Config(BaseModel):
     log_chat: int
     command_prefixes: Union[str, List[str]] = "."
 
-    # noinspection PyNestedDecorators
+    command_prefix = property(
+        lambda self: self.command_prefixes[0] if type(self.command_prefixes) is list else self.command_prefixes
+    )
+
     @model_validator(mode='after')
     @classmethod
     def check_log_level(cls, values):

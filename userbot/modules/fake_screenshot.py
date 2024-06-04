@@ -7,7 +7,7 @@ from pyrogram.enums import ChatType
 from pyrogram import raw
 
 from userbot import client, error_handler, self_command_filter
-from userbot.modules.help import add_command_help
+from userbot.modules.help import cmd_help
 
 
 @client.on_message(self_command_filter(["ss", "screenshot"]))
@@ -29,16 +29,14 @@ async def screenshot(bot: Client, message: Message):
     )
 
 
-add_command_help(
+cmd_help.add_module_help(
     module_name="fake_screenshot",
-    module_description="发送一条当前聊天已经被截图的消息，用来恶搞，**仅可在私聊中使用**。",
+    module_description="一些统计、状态信息。",
     commands=[
-        ["ss", "screenshot"],
+        cmd_help.command_help(
+            command=["ss", "screenshot"],
+            description="发送一条当前聊天已经被截图的消息，用来恶搞，<b>仅可在私聊中使用</b>。",
+            example=["ss", "screenshot"]
+        )
     ],
-    commands_description=[
-        "发送一条当前聊天已经被截图的消息，用来恶搞，**仅可在私聊中使用**。"
-    ],
-    commands_example=[
-        ["ss", "screenshot"],
-    ]
 )

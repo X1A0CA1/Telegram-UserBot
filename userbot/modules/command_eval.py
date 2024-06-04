@@ -11,7 +11,7 @@ from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import Message
 
 from userbot import client, format_time, error_handler, self_command_filter
-from userbot.modules.help import add_command_help
+from userbot.modules.help import cmd_help
 
 
 @client.on_message(self_command_filter("eval"))
@@ -35,7 +35,7 @@ async def evaluation_func(bot: Client, message: Message):
     try:
         await await_exec(cmd, bot, message)
     except Exception as e:
-        exc = traceback.format_exc()
+        exc = f"{e}\n{traceback.format_exc()}"
 
     end_time = time.perf_counter()
     execution_time = end_time - start_time
@@ -138,19 +138,19 @@ async def execution(_: Client, message: Message):
         await message.reply(output)
 
 
-add_command_help(
+cmd_help.add_module_help(
     module_name="command_eval",
-    module_description="执行 python3 或 系统命令，注意，请不要随意执行陌生人的命令，**这可能会导致你的账号被盗或其他风险**。",
+    module_description="执行 python3 或 系统命令，注意，请不要随意执行陌生人的命令，<b>这可能会导致你的账号被盗或其他风险</b>。",
     commands=[
-        ["eval"],
-        ["sh"]
+        cmd_help.command_help(
+            command=["eval"],
+            description="执行 python3 命令。",
+            example=["eval print('Hello World')"]
+        ),
+        cmd_help.command_help(
+            command=["sh"],
+            description="执行系统命令。",
+            example=["sh ls"]
+        )
     ],
-    commands_description=[
-        "执行 python3 命令",
-        "执行系统命令"
-    ],
-    commands_example=[
-        ["eval print('Hello World')"],
-        ["sh ls"]
-    ]
 )

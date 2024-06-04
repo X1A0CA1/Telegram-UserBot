@@ -1,9 +1,12 @@
 import functools
 import traceback
+import time
 
 from pyrogram.types import Message
 from pyrogram.enums import ParseMode
 from pyrogram import Client
+
+from .utils import format_time
 
 
 def error_handler(func):
@@ -32,5 +35,30 @@ def error_handler(func):
                 )
             else:
                 await message.edit(error_message)
+
+    return wrapper
+
+
+def send_command_process_time(func):
+    @functools.wraps(func)
+    async def wrapper(client: Client, message: Message, *args, **kwargs):
+        start_time = time.perf_counter()
+        result = await func(client, message, *args, **kwargs)
+        end_time = time.perf_counter()
+        p_time = end_time - start_time
+
+        speedtest_message = (
+            f"<b>命令处理耗时</b>: {format_time(p_time)} "
+        )
+
+        await client.send_message(
+            chat_id=message.chat.id,
+            text=speedtest_message,
+            disable_notification=True,
+            reply_to_message_id=message.id,
+            parse_mode=ParseMode.HTML
+        )
+
+        return result
 
     return wrapper

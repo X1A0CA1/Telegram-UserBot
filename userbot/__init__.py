@@ -23,8 +23,5 @@ bot = app = client = Client(
 
 scheduler = AsyncIOScheduler(timezone=config.time_zone)
 
-
-# 一些变量们
-CMD_HELP = {}
-
-COMMAND_PREFIX = config.command_prefixes[0] if type(config.command_prefixes) is list else config.command_prefixes
+COMMAND_PREFIX = config.command_prefix
+COMMAND_PREFIXES = config.command_prefixes

@@ -1,5 +1,5 @@
 from userbot import client, AioHttp, self_command_filter
-from userbot.modules.help import add_command_help
+from userbot.helpers import cmd_help
 
 
 def replace_text(text):
@@ -33,16 +33,15 @@ async def urban_dictionary(_, message):
             f"<blockquote expandable>{e}<pre></pre></blockquote>"
         )
 
-add_command_help(
+
+cmd_help.add_module_help(
     module_name="urbandictionary",
-    module_description="查询 urbandictionary 词语意思。",
+    module_description="查询 urbandictionary 一个单词短语的意思。",
     commands=[
-        ["ud", "ubran"],
-    ],
-    commands_description=[
-        "查询 urbandictionary 一个词是什么意思。",
-    ],
-    commands_example=[
-        ["ud <词语>", "ud mogul"],
+        cmd_help.command_help(
+            command=["ub", "ubran"],
+            description="查询 urbandictionary 一个单词短语的意思。",
+            example=["ud <词语>", "ud mogul"]
+        )
     ]
 )

@@ -9,7 +9,7 @@ from pyrogram.errors import FloodWait, MessageIdInvalid
 from pyrogram.raw.functions import Ping
 
 from userbot import client, format_time, self_command_filter
-from userbot.modules.help import add_command_help
+from userbot.helpers import cmd_help
 
 
 @client.on_message(self_command_filter("ping"))
@@ -83,19 +83,19 @@ async def update_callback(all_chats, current_count, message):
             raise RuntimeError('需要被编辑的消息被删除。')
 
 
-add_command_help(
+cmd_help.add_module_help(
     module_name="status",
     module_description="一些统计、状态信息。",
     commands=[
-        ["ping"],
-        ["stats"]
+        cmd_help.command_help(
+            command=["ping"],
+            description="测试与 Telegram 的延迟，会显示 Ping 延迟和处理消息的延迟。",
+            example=["ping"]
+        ),
+        cmd_help.command_help(
+            command=["stats"],
+            description="统计你的账号所加入的不同类型的群组的数量。",
+            example=["stats"]
+        )
     ],
-    commands_description=[
-        "测试与 Telegram 的延迟，会显示 Ping 延迟和处理消息的延迟。",
-        "统计你的账号所加入的不同类型的群组的数量。"
-    ],
-    commands_example=[
-        ["ping"],
-        ["stats"]
-    ]
 )
