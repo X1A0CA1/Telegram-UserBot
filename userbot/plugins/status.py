@@ -1,19 +1,19 @@
 import time
 import random
 
-from pyrogram import filters, Client
+from pyrogram import Client
 from pyrogram.types import Message
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, MessageIdInvalid
 
 from pyrogram.raw.functions import Ping
 
-from userbot import client, format_time
+from userbot import client, format_time, self_command_filter
 from userbot.plugins.help import add_command_help
 
 
-@client.on_message(filters.command("ping", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
-@client.on_edited_message(filters.command("ping", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
+@client.on_message(self_command_filter("ping"))
+@client.on_edited_message(self_command_filter("ping"))
 async def ping(_: Client, message: Message):
     dc_ping_start_time = time.perf_counter()
     await client.invoke(Ping(ping_id=0))
@@ -28,8 +28,8 @@ async def ping(_: Client, message: Message):
     await message.edit(f"Poi! | PING: **{ping_duration}** | MSG PROCESS: **{msg_duration}**")
 
 
-@client.on_message(filters.command("stats", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
-@client.on_edited_message(filters.command("stats", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
+@client.on_message(self_command_filter("stats"))
+@client.on_edited_message(self_command_filter("stats"))
 async def stats(_: Client, message: Message):
     msg = await message.edit("正在计算所有的聊天中... 这可能需要一些时间...")
     bot = private = group = created_group = supergroup = created_supergroup = channel = created_channel = unknown = 0
@@ -87,16 +87,15 @@ add_command_help(
     module_name="status",
     module_description="一些统计、状态信息。",
     commands=[
-        [".ping"],
-        [".stats"]
+        ["ping"],
+        ["stats"]
     ],
     commands_description=[
         "测试与 Telegram 的延迟，会显示 Ping 延迟和处理消息的延迟。",
         "统计你的账号所加入的不同类型的群组的数量。"
     ],
     commands_example=[
-        [".ping"],
-        [".stats"]
+        ["ping"],
+        ["stats"]
     ]
 )
-

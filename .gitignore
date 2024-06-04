@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 .idea/
 config.yml
+*.session
 
 # C extensions
 *.so

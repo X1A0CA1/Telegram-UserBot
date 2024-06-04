@@ -1,6 +1,4 @@
-from pyrogram import filters
-
-from userbot import client, AioHttp
+from userbot import client, AioHttp, self_command_filter
 from userbot.plugins.help import add_command_help
 
 
@@ -8,8 +6,8 @@ def replace_text(text):
     return text.replace('"', "").replace("\\r", "").replace("\\n", "").replace("\\", "")
 
 
-@client.on_message(filters.me & filters.command(["ud"], "."))
-@client.on_edited_message(filters.me & filters.command(["ud"], "."))
+@client.on_message(self_command_filter(["ud", "ubran"]))
+@client.on_edited_message(self_command_filter(["ud", "ubran"]))
 async def urban_dictionary(_, message):
     if len(message.text.split()) == 1:
         return await message.edit("用法: `ud <需要查询的词语>`")
@@ -39,12 +37,12 @@ add_command_help(
     module_name="urbandictionary",
     module_description="查询 urbandictionary 词语意思。",
     commands=[
-        [".ubran", ".ud"],
+        ["ud", "ubran"],
     ],
     commands_description=[
         "查询 urbandictionary 一个词是什么意思。",
     ],
     commands_example=[
-        [".ud <词语>", ".ud mogul"],
+        ["ud <词语>", "ud mogul"],
     ]
 )

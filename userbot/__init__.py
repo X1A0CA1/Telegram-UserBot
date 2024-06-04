@@ -26,3 +26,5 @@ scheduler = AsyncIOScheduler(timezone=config.time_zone)
 
 # 一些变量们
 CMD_HELP = {}
+
+COMMAND_PREFIX = config.command_prefixes[0] if type(config.command_prefixes) is list else config.command_prefixes

@@ -1,8 +1,11 @@
-import uvloop
+import platform
 
 from userbot import bot, scheduler
 
-uvloop.install()
+
+if platform.system() != "Windows":
+    import uvloop
+    uvloop.install()
 
 if __name__ == '__main__':
     scheduler.start()

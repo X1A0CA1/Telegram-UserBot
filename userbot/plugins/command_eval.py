@@ -6,16 +6,17 @@ import traceback
 import platform
 import time
 
-from pyrogram import filters, Client
+from pyrogram import Client
 from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import Message
 
-from userbot import client, format_time
+from userbot import client, format_time, error_handler, self_command_filter
 from userbot.plugins.help import add_command_help
 
 
-@client.on_message(filters.command("eval", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
-@client.on_edited_message(filters.command("eval", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
+@client.on_message(self_command_filter("eval"))
+@client.on_edited_message(self_command_filter("eval"))
+@error_handler
 async def eval_func_edited(bot, message):
     await evaluation_func(bot, message)
 
@@ -86,8 +87,9 @@ async def await_exec(code, bot, message):
     return await locals()["__await_exec"](bot, message)
 
 
-@client.on_edited_message(filters.command("sh", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
-@client.on_message(filters.command("sh", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
+@client.on_edited_message(self_command_filter("sh"))
+@client.on_message(self_command_filter("sh"))
+@error_handler
 async def execution_func_edited(bot, message):
     await execution(bot, message)
 
@@ -140,15 +142,15 @@ add_command_help(
     module_name="command_eval",
     module_description="执行 python3 或 系统命令，注意，请不要随意执行陌生人的命令，**这可能会导致你的账号被盗或其他风险**。",
     commands=[
-        [".eval"],
-        [".sh"]
+        ["eval"],
+        ["sh"]
     ],
     commands_description=[
         "执行 python3 命令",
         "执行系统命令"
     ],
     commands_example=[
-        [".eval print('Hello World')"],
-        [".sh ls"]
+        ["eval print('Hello World')"],
+        ["sh ls"]
     ]
 )

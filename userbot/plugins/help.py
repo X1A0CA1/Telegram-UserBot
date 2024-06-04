@@ -1,8 +1,8 @@
 from typing import List
 
-from pyrogram import filters, enums
+from pyrogram import enums
 from pyrogram.types import Message
-from userbot import client, CMD_HELP
+from userbot import client, CMD_HELP, self_command_filter
 
 heading = "──「 **{0}** 」──\n\n"
 
@@ -12,12 +12,12 @@ def split_list(input_list, n):
     return [input_list[i: i + n] for i in range(0, len(input_list), n)]
 
 
-@client.on_message(filters.command("help", ".") & filters.me)
+@client.on_message(self_command_filter("help"))
 async def module_help(_, message: Message):
     cmd = message.command
 
     if len(cmd) == 1:
-        all_commands = "**已加载的插件：**\n\n"
+        all_commands = "**已加载的模块:**\n\n"
 
         for module in sorted(CMD_HELP.keys()):
             commands = CMD_HELP[module]['commands']
@@ -39,16 +39,14 @@ async def module_help(_, message: Message):
         this_command += f"**模块描述:**\n{commands['module_description']}\n\n"
 
         for cmd_info in commands['commands']:
-            this_command += f"-> {' | '.join([f'`{cmd}`' for cmd in cmd_info['command']])}\n"
+            this_command += f"-> {' | '.join([f'`.{cmd}`' for cmd in cmd_info['command']])}\n"
             this_command += f"{cmd_info['description']}\n"
-            this_command += f"例：{' | '.join([f'`{exp}`' for exp in cmd_info['example']])}\n\n"
+            this_command += f"例：{' | '.join([f'`.{exp}`' for exp in cmd_info['example']])}\n\n"
 
         return await message.edit(this_command, parse_mode=enums.ParseMode.MARKDOWN)
 
     # 如果查询的不是模块，则在子命令里寻找 help_arg
     found = False
-    if not help_arg.startswith('.'):
-        help_arg = f".{help_arg}"
     for module in CMD_HELP:
         for cmd_info in CMD_HELP[module]['commands']:
             if help_arg in cmd_info['command']:
@@ -57,9 +55,9 @@ async def module_help(_, message: Message):
 
                 this_command += f"**模块描述:**\n{CMD_HELP[module]['module_description']}\n\n"
 
-                this_command += f"-> {' | '.join([f'`{cmd}`' for cmd in cmd_info['command']])}\n"
+                this_command += f"-> {' | '.join([f'`.{cmd}`' for cmd in cmd_info['command']])}\n"
                 this_command += f"{cmd_info['description']}\n"
-                this_command += f"例：{' | '.join([f'`{exp}`' for exp in cmd_info['example']])}\n\n"
+                this_command += f"例：{' | '.join([f'`.{exp}`' for exp in cmd_info['example']])}\n\n"
                 await message.edit(this_command, parse_mode=enums.ParseMode.MARKDOWN)
                 found = True
                 break
@@ -101,12 +99,12 @@ add_command_help(
     module_name="help",
     module_description="列出加载的模块与各个命令，你可以使用 `.help help` 来查看 help 的用法。",
     commands=[
-        [".help"],
+        ["help"],
     ],
     commands_description=[
         "列出加载的模块与各个命令的用法。",
     ],
     commands_example=[
-        [".help <模块名>", ".help <命令名>", ".help"],
+        ["help <模块名>", "help <命令名>", ".help"],
     ]
 )

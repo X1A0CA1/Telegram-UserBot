@@ -1,7 +1,7 @@
 import yaml
 import logging
 from pydantic import BaseModel, ValidationError, model_validator
-from typing import Optional
+from typing import Optional, Union, List
 
 
 class ProxyConfig(BaseModel):
@@ -51,6 +51,8 @@ class Config(BaseModel):
     log_level: str = "INFO"
     debug: bool = False
     ipv6: bool = False
+    log_chat: int
+    command_prefixes: Union[str, List[str]] = "."
 
     # noinspection PyNestedDecorators
     @model_validator(mode='after')
