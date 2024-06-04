@@ -10,9 +10,7 @@ from userbot import client
 from userbot.plugins.help import add_command_help
 
 
-@client.on_message(
-    filters.command(["ss", "screenshot"], ".") & filters.me
-)
+@client.on_message(filters.command(["ss", "screenshot"], ".") & filters.me)
 async def screenshot(bot: Client, message: Message):
     if message.chat.type is not ChatType.PRIVATE:
         return await message.edit('此命令仅可在私聊使用。')

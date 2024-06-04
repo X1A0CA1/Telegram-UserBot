@@ -86,23 +86,9 @@ async def await_exec(code, bot, message):
     return await locals()["__await_exec"](bot, message)
 
 
-@client.on_edited_message(
-    filters.command("sh", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
-)
+@client.on_edited_message(filters.command("sh", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
+@client.on_message(filters.command("sh", ".") & filters.me & ~filters.forwarded & ~filters.via_bot)
 async def execution_func_edited(bot, message):
-    await execution(bot, message)
-
-
-@client.on_message(
-    filters.command("sh", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
-)
-async def execution_func(bot, message):
     await execution(bot, message)
 
 
