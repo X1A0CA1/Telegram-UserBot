@@ -72,7 +72,7 @@ async def re(bot: Client, message: Message):
                 ) for _ in range(times)]
             )
             await asyncio.gather(*tasks)
-        elif has_protected_content and target_message.media_group_id:
+        elif not has_protected_content and target_message.media_group_id:
             await asyncio.gather(*tasks)
             target_messages = await bot.get_media_group(target_message.chat.id, target_message.id)
             for _ in range(times):
@@ -83,7 +83,7 @@ async def re(bot: Client, message: Message):
                     message_thread_id=message.message_thread_id
                 )
 
-        elif has_protected_content and not target_message.media_group_id:
+        elif not has_protected_content and not target_message.media_group_id:
             await asyncio.gather(*tasks)
             for _ in range(times):
                 await target_message.forward(
