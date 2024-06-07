@@ -7,7 +7,7 @@ from userbot.helpers import *
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-VERSION = "0.0.3"
+VERSION = "0.0.6"
 
 bot = app = client = Client(
     name=config.bot.name,

@@ -11,6 +11,12 @@ class AioHttp:
                 return await resp.json()
 
     @staticmethod
+    async def post_json(link, *args, **kwargs):
+        async with aiohttp.ClientSession() as session:
+            async with session.post(link, *args, **kwargs) as resp:
+                return await resp.json()
+
+    @staticmethod
     async def get_text(link):
         async with aiohttp.ClientSession() as session:
             async with session.get(link) as resp:

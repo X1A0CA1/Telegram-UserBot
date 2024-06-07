@@ -1,6 +1,9 @@
 import functools
 import traceback
 import time
+import cProfile
+import pstats
+from io import StringIO
 
 from pyrogram.types import Message
 from pyrogram.enums import ParseMode
@@ -58,6 +61,24 @@ def send_command_process_time(func):
             reply_to_message_id=message.id,
             parse_mode=ParseMode.HTML
         )
+
+        return result
+
+    return wrapper
+
+
+def cprofile_async(func):
+    async def wrapper(*args, **kwargs):
+        pr = cProfile.Profile()
+        pr.enable()
+        result = await func(*args, **kwargs)
+        pr.disable()
+
+        s = StringIO()
+        ps = pstats.Stats(pr, stream=s).sort_stats('time')
+        ps.print_stats()
+
+        print(s.getvalue())
 
         return result
 

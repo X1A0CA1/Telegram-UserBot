@@ -42,9 +42,15 @@ class BotConfig(BaseModel):
         return values
 
 
+class PluginsConfig(BaseModel):
+    azure_speech_key: str = None
+    azure_service_region: str = None
+
+
 class Config(BaseModel):
     bot: BotConfig
     proxy: ProxyConfig = ProxyConfig()
+    plugins: PluginsConfig
     time_zone: str = "Asia/ShangHai"
     log_level: str = "INFO"
     debug: bool = False
