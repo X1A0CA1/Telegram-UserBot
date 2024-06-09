@@ -1,4 +1,4 @@
-def format_time(seconds: float):
+def format_time(seconds: float) -> str:
     if seconds < 1e-6:
         return f"{seconds * 1e9:.3f} ns"
     elif seconds < 1e-3:

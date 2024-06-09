@@ -1,0 +1,26 @@
+bot:
+  name: ""  # 随便写，中文大概也可以
+  type: "userbot"  # "userbot" 或 "bot"
+  bot_token: ""  # 仅对 bot 生效，上面写了 bot 就要填这个
+  api_id: ""  # 你的 api_id
+  api_hash: ""  # 你的 api_hash
+  test_mode: false  # 是否登录到 Test Server
+
+proxy:
+  enable: false
+  type: "http"  # "http" 或 "socks5" 或 "mtproto"
+  hostname: "127.0.0.1"
+  port: 12345
+  username: "user"
+  password: "password"
+
+debug: true
+log_level: "INFO"
+time_zone: "Asia/ShangHai"
+ipv6: false  # 也通过 ipv6 连接到 TG 服务器，可能会劣化连接质量，除非服务器仅有 ipv6 不然不建议开启
+log_chat: -1001234567890  # 你的日志群 ID
+command_prefixes: [".", "。"]
+
+plugins:
+  azure_speech_key: ""  # 没有就不管了
+  azure_service_region: ""  # 没有就不管了

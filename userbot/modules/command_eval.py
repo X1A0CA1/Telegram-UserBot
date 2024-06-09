@@ -60,11 +60,8 @@ async def evaluation_func(bot: Client, message: Message):
         with open("eval.txt", "w", encoding="utf8") as out_file:
             out_file.write(str(final_output))
 
-        caption = f"<blockquote expandable><pre>{cmd[:2000] if len(cmd) > 2000 else cmd}</pre></blockquote>"
-
         await message.reply_document(
             "eval.txt",
-            caption=caption,
             disable_notification=True,
             reply_to_message_id=message.id,
             parse_mode=ParseMode.HTML
@@ -125,11 +122,8 @@ async def execution(_: Client, message: Message):
         with open("sh.txt", "w+", encoding="utf8") as out_file:
             out_file.write(str(output))
 
-        caption = f"<blockquote expandable><pre>{cmd[:2000] if len(cmd) > 2000 else cmd}</pre></blockquote>"
-
         await message.reply_document(
             document="sh.txt",
-            caption=caption,
             disable_notification=True,
             reply_to_message_id=message.id,
         )
