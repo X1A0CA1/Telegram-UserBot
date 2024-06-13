@@ -4,9 +4,8 @@ import asyncio
 from userbot import bot, scheduler, load_modules_and_plugins
 from pyrogram import idle
 
-if platform.system() != "Windows":
+if platform.system() not in ["Windows", "Darwin"]:
     import uvloop
-
     uvloop.install()
 
 

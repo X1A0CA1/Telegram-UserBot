@@ -37,7 +37,7 @@ def error_handler(func):
                     parse_mode=ParseMode.HTML
                 )
             else:
-                await message.edit(error_message)
+                await message.edit(error_message, parse_mode=ParseMode.HTML)
 
     return wrapper
 
