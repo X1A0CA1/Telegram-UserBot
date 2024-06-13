@@ -39,7 +39,7 @@ cmd_help.add_module_help(
     module_description="查询 urbandictionary 一个单词短语的意思。",
     commands=[
         cmd_help.command_help(
-            command=["ub", "ubran"],
+            command=["ud", "ubran"],
             description="查询 urbandictionary 一个单词短语的意思。",
             example=["ud <词语>", "ud mogul"]
         )

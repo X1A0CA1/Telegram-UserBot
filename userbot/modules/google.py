@@ -59,7 +59,6 @@ async def web_screenshot(_, message: Message):
     await message.edit(f"启动浏览器中...")
     service = ChromeService(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
-    image = None
     try:
         await message.edit("访问并截图中...")
         driver.get(url)

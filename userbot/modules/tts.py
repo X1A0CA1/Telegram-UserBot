@@ -2,6 +2,7 @@ import io
 import time
 import emoji
 
+# noinspection PyPackageRequirements
 import azure.cognitiveservices.speech as speech_sdk
 
 from pyrogram import Client
