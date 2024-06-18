@@ -1,4 +1,5 @@
 import re
+import asyncio
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -26,7 +27,7 @@ async def process_cloud_music_bot_req(bot: Client, message: Message, query: str)
             chat_id=CLOUD_MUSIC_BOT_ID,
             user_id=CLOUD_MUSIC_BOT_ID,
             text=query,
-            timeout=10
+            timeout=30
         )
     except ListenerTimeout:
         return await message.edit("什么都没有找到 :(")
@@ -76,31 +77,46 @@ async def cloud_music_link(bot: Client, message: Message):
 @client.on_edited_message(SPOTIFY_LINK_FILTER)
 async def spotify_link(bot: Client, message: Message):
     song_url = re.match(SPOTIFY_REGEX_PATTERN, message.text).group(0)
-    for BOT_ID in SPOTIFY_MUSIC_BOT_ID:
+
+    async def get_bot_reply(bot_id: int, text: str):
         try:
-            spotify_music_bot_reply: Message = await bot.ask(
+            return await bot.ask(
                 filters=filters.audio,
-                chat_id=BOT_ID,
-                user_id=BOT_ID,
-                text=song_url,
-                timeout=3
+                chat_id=bot_id,
+                user_id=bot_id,
+                text=text,
+                timeout=15
             )
         except ListenerTimeout:
-            continue
-        finally:
-            await bot.read_chat_history(chat_id=BOT_ID)
+            return None
 
-        spotify_music_bot_reply.caption = spotify_music_bot_reply.entities = None
-        return await spotify_music_bot_reply.copy(
-            chat_id=message.chat.id,
-            reply_to_message_id=message.id
+    tasks = [asyncio.create_task(get_bot_reply(BOT_ID, song_url)) for BOT_ID in SPOTIFY_MUSIC_BOT_ID]
+    done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+
+    for task in pending:
+        task.cancel()
+
+    spotify_music_bot_reply = None
+    for task in done:
+        if task.result():
+            spotify_music_bot_reply = task.result()
+            break
+
+    if not spotify_music_bot_reply:
+        return await message.edit(
+            text=f"<b>T_T:</b>\n\n{message.text}",
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=False
         )
 
-    await message.edit(
-        text=f"<b>无效链接 T_T:</b>\n\n{message.text}",
-        parse_mode=ParseMode.HTML,
-        disable_web_page_preview=False
+    spotify_music_bot_reply.caption = spotify_music_bot_reply.entities = None
+    await spotify_music_bot_reply.copy(
+        chat_id=message.chat.id,
+        reply_to_message_id=message.id
     )
+
+    for chat_id in SPOTIFY_MUSIC_BOT_ID:
+        await bot.read_chat_history(chat_id=chat_id)
 
 
 cmd_help.add_module_help(
